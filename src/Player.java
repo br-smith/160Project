@@ -1,13 +1,16 @@
+import java.util.HashMap;
+
 public class Player {
     private String name;
     private int playerID;
     private double rank;
-    private int[] placements;
+    private HashMap<String, Integer> placements;
 
     public Player(){
         name = "";
         rank = 0;
         playerID = -1;
+        placements = new HashMap<String, Integer>();
     }
 
     public Player(String name, double rank){
@@ -36,5 +39,12 @@ public class Player {
 
     public void setRank(double rank) {
         this.rank = rank;
+    }
+
+    public void addPlacement(String tournament,int placement){
+        placements.put(tournament, placement);
+    }
+    public void removePlacement(String tournament){
+        placements.remove(tournament);
     }
 }
