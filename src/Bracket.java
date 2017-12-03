@@ -11,6 +11,7 @@ import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 public class Bracket {
     private ArrayList<Match> bracket;
     private HashMap<String, Integer> placements;
+    private int playerCount;
     private String tournyName;
     int tournyParticipants;
     String address;
@@ -25,7 +26,7 @@ public class Bracket {
     }
 
     //@SuppressWarnings("unchecked");
-    public void makeBracket(String tournamentFileName) throws IOException {
+    public void makeBracket(String tournamentFileName, ArrayList<Player> players) throws IOException {
 //        JSONParser parser = new JSONParser();
         // This will read the lines of the text file
         BufferedReader reader = new BufferedReader(new FileReader(tournamentFileName));
@@ -41,9 +42,29 @@ public class Bracket {
         // This code looks at the remaining lines to add matches to the bracket
         while ((line = reader.readLine()) != null) {
             String [] playerInfo = line.split(",");
+            String player1 = playerInfo[0].replaceAll(" ","");
+            String player2 = playerInfo[1].replaceAll(" ", "");
+            boolean found1 = false;
+            boolean found2 = false;
+            for (Player p: players) {
+                if (p.getName().equals(player1)) {
+                    found1 = true;
+                } else if (p.getName().equals(player2)){
+                    found2 = true;
+                }
+            }
+            // Need to add the players if we missed them
+            if (!found1) {
+                Player p1 = new Player(player1, ++playerCount);
+                players.add(p1);
+            } if (!found2) {
+                Player p2 = new Player(player2, ++playerCount);
+                players.add(p2);
+            }
+
             bracket.add(new Match(playerInfo[0].replaceAll(" ", ""),
                     playerInfo[1].replaceAll(" ", ""),
-                    playerInfo[2].replaceAll(" ", "")));
+                    playerInfo[2].replaceAll(" ", ""), players));
         }
     }
 
@@ -63,17 +84,18 @@ public class Bracket {
         }
     }
 
-    public static void main(String[]args) throws IOException {
-        Bracket b = new Bracket();
-        b.makeBracket("./TournamentFiles/Tournament1.txt");
-        b.makePlacements();
-        Iterator it = b.getPlacements().entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-    }
+//    public static void main(String[]args) throws IOException {
+//        Bracket b = new Bracket();
+////        b.makeBracket("./TournamentFiles/Tournament1.txt", );
+//        b.makePlacements();
+//        Iterator it = b.getPlacements().entrySet().iterator();
+//        while (it.hasNext()) {
+//            HashMap.Entry pair = (HashMap.Entry)it.next();
+//            System.out.println(pair.getKey() + " = " + pair.getValue());
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
+//
+//    }
 
     public void setPlacements(HashMap<String, Integer> placements) {
         this.placements = placements;
