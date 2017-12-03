@@ -78,4 +78,12 @@ public class Bracket {
     public void setPlacements(HashMap<String, Integer> placements) {
         this.placements = placements;
     }
+
+    public String getTournyName() {
+        return tournyName;
+    }
+
+    public void setTournyName(String tournyName) {
+        this.tournyName = tournyName;
+    }
 }

@@ -15,6 +15,14 @@ public class Player {
         placements = new HashMap<String, Integer>();
     }
 
+    public Player(String name, int playerID){
+        this.name = name;
+        rank = 0;
+        numTourneys = 0;
+        this.playerID = playerID;
+        placements = new HashMap<String, Integer>();
+    }
+
     public Player(String name, double rank){
         numTourneys = 0;
         placements = new HashMap<String, Integer>();

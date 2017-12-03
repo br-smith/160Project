@@ -1,6 +1,40 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class Ranking {
+    private Player[] players;
+    private int playerCount;
+    public Ranking(){
+        players = new Player[16];
+        playerCount = 0;
+    }
+    public void getPlacements(String tournament){
+        Bracket bracket = new Bracket();
+        try{
+            //bracket.makeBracket("src/TournamentFiles/Tournament1.txt");
+            bracket.makeBracket(tournament);
+            bracket.makePlacements();
+            int flag = 0;
+            HashMap<String, Integer> placements = bracket.getPlacements(); //This returns a HashMap with player's placements for a certain tourney
+            for (Map.Entry<String, Integer> entry : placements.entrySet()) { // For each entry in the HashMap...
+                for (Player player : players) { // ...see if the player is already in the master list
+                    if (player.getName().equals(entry.getKey())) { // if so, add his placement to his Player object
+                        player.addPlacement(bracket.getTournyName(), entry.getValue());
+                        flag = 1;
+                    }
+                }
+                if (flag == 0) { // if player not found, add him to the master list and add this placement
+                    players[playerCount] = new Player(entry.getKey(), playerCount);
+                    playerCount++;
+                    players[playerCount].addPlacement(bracket.getTournyName(), entry.getValue());
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public double[] getAvgRanking(Player[] players){
         int numPlayers = players.length;
 
