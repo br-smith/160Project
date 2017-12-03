@@ -7,16 +7,20 @@ import java.util.TreeSet;
 public class Ranking {
 //    private Player[] players;
     private double[] averages;
+    private ArrayList<Bracket> brackets;
     private PlayerComparer pc;
     private ArrayList<Player> playersArrayList;
     private TreeSet<Player> PowerRankings;
     private int playerCount;
+
+
     public Ranking(){
         playersArrayList = new ArrayList<Player>();
         playerCount = 0;
         pc = new PlayerComparer();
         PowerRankings = new TreeSet<Player>(pc);
         averages = new double[16];
+        brackets = new ArrayList<>();
     }
     public ArrayList<Player> getPlayers() {
         return playersArrayList;
@@ -24,6 +28,10 @@ public class Ranking {
 
     public TreeSet<Player> getPowerRankings() {
         return PowerRankings;
+    }
+
+    public ArrayList<Bracket> getBrackets() {
+        return brackets;
     }
 
     public void getPlacements(String tournament){
@@ -50,13 +58,13 @@ public class Ranking {
                 }
                 flag = 0;
             }
+            brackets.add(bracket);
         } catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
-    public static double[] getAvgRanking(ArrayList<Player> players){
+    public double[] getAvgRanking(ArrayList<Player> players){
         int numPlayers = players.size();
 
         int[] total = new int[numPlayers];
@@ -68,6 +76,7 @@ public class Ranking {
             }
 
             average[i] = total[i] / players.get(i).getNumTourneys();
+            players.get(i).setRank(average[i]);
         }
         return average;
     }
@@ -76,6 +85,7 @@ public class Ranking {
     public TreeSet<Player> generatePowerRankings (ArrayList<Player> players) {
         HashMap<String, Integer> rankings = new HashMap<>();
         for (Player p: players) {
+            p.setElo((int) Math.abs(p.getElo() + 100 * (Math.log(1/p.getRank()))  - 50 * brackets.size() / p.getNumTourneys()));
             PowerRankings.add(p);
         }
         return PowerRankings;
@@ -83,6 +93,18 @@ public class Ranking {
 
     public void setPowerRankings(TreeSet<Player> powerRankings) {
         PowerRankings = powerRankings;
+    }
+
+    public void setBrackets(ArrayList<Bracket> brackets) {
+        this.brackets = brackets;
+    }
+
+    public double[] getAverages() {
+        return averages;
+    }
+
+    public void setAverages(double[] averages) {
+        this.averages = averages;
     }
 //    public double[] getAvgRanking(int[][] tourneys){
 //        int numPlayers = tourneys.length;

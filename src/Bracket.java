@@ -13,8 +13,9 @@ public class Bracket {
     private HashMap<String, Integer> placements;
     private int playerCount;
     private String tournyName;
-    int tournyParticipants;
-    String address;
+    private int tournyParticipants;
+    private String cityName;
+    private String address;
 
     public Bracket() {
         bracket = new ArrayList<Match>();
@@ -25,6 +26,18 @@ public class Bracket {
         return placements;
     }
 
+    public int getTournyParticipants() {
+        return tournyParticipants;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     //@SuppressWarnings("unchecked");
     public void makeBracket(String tournamentFileName, ArrayList<Player> players) throws IOException {
 //        JSONParser parser = new JSONParser();
@@ -33,10 +46,10 @@ public class Bracket {
         // This code takes the first two lines, which give tourny info and address info, to the appropriate places
         String line;
         line = reader.readLine();
-        System.out.println(line);
         String[] tournyInfo = line.split(",");
         tournyName = tournyInfo[0];
         tournyParticipants = Integer.valueOf(tournyInfo[1].replace(" ", ""));
+        cityName = tournyInfo[2];
         address = reader.readLine();
 
         // This code looks at the remaining lines to add matches to the bracket
@@ -55,10 +68,12 @@ public class Bracket {
             }
             // Need to add the players if we missed them
             if (!found1) {
-                Player p1 = new Player(player1, ++playerCount);
+                Player p1 = new Player(player1, playerCount++);
+                p1.setRank(p1.getPlayerID()+1);
                 players.add(p1);
             } if (!found2) {
-                Player p2 = new Player(player2, ++playerCount);
+                Player p2 = new Player(player2, playerCount++);
+                p2.setRank(p2.getPlayerID()+1);
                 players.add(p2);
             }
 
@@ -66,6 +81,7 @@ public class Bracket {
                     playerInfo[1].replaceAll(" ", ""),
                     playerInfo[2].replaceAll(" ", ""), players));
         }
+        makePlacements();
     }
 
     //precondition: ArrayList<Match> bracket has been made using the previous function
@@ -74,11 +90,22 @@ public class Bracket {
             String winner = m.getWinner();
             String loser = (m.getPlayer1ID().equals(m.getWinner()) ? m.getPlayer2ID() : m.getPlayer1ID());
             if (!placements.containsKey(winner)){
-                int place = (placements.size() < 4 ? placements.size() + 1 : (placements.size() >= 4 && placements.size() < 6) ? 5 : 7);
+                int place = 0;
+                if (placements.size() <= 6)
+                    place = (placements.size() < 4 ? placements.size() + 1 : (placements.size() >= 4 && placements.size() < 6) ? 5 : 7);
+                else {
+                    place = placements.size();
+                }
                 placements.put(winner, place);
             }
             if (!placements.containsKey(loser)) {
-                int place = (placements.size() < 4 ? placements.size() + 1 : (placements.size() >= 4 && placements.size() < 6) ? 5 : 7);
+                int place = 0;
+                if (placements.size() <= 6)
+                    if (placements.size() < 4) place = placements.size() + 1;
+                    else place = (placements.size() >= 4 && placements.size() < 6) ? 5 : 7;
+                else {
+                    place = placements.size();
+                }
                 placements.put(loser, place);
             }
         }
