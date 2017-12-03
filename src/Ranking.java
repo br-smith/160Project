@@ -25,9 +25,10 @@ public class Ranking {
                 }
                 if (flag == 0) { // if player not found, add him to the master list and add this placement
                     players[playerCount] = new Player(entry.getKey(), playerCount);
-                    playerCount++;
                     players[playerCount].addPlacement(bracket.getTournyName(), entry.getValue());
+                    playerCount++;
                 }
+                flag = 0;
             }
         } catch(Exception e){
             e.printStackTrace();
