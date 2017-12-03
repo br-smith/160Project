@@ -1,8 +1,11 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 public class Ranking {
     private Player[] players;
+    private double[] averages;
+    private TreeSet<Player> PowerRankings;
     private int playerCount;
     public Ranking(){
         players = new Player[16];
@@ -47,9 +50,18 @@ public class Ranking {
             }
             average[i] = total[i] / players[i].getNumTourneys();
         }
+        averages = average;
         return average;
     }
 
+    // Needs to have run getAvgRanking already
+    public TreeSet<Player> generatePowerRankings (Player[] players) {
+        HashMap<String, Integer> rankings = new HashMap<>();
+        for (Player p: players) {
+            PowerRankings.add(p);
+        }
+        return PowerRankings;
+    }
 //    public double[] getAvgRanking(int[][] tourneys){
 //        int numPlayers = tourneys.length;
 //

@@ -1,11 +1,12 @@
 import java.util.HashMap;
 
-public class Player {
+public class Player{
     private String name;
     private int playerID;
     private double rank;
     private int numTourneys;
     private HashMap<String, Integer> placements;
+    private int elo;
 
     public Player(){
         name = "";
@@ -13,6 +14,7 @@ public class Player {
         numTourneys = 0;
         playerID = -1;
         placements = new HashMap<String, Integer>();
+        elo = 1000;
     }
 
     public Player(String name, int playerID){
@@ -21,6 +23,8 @@ public class Player {
         numTourneys = 0;
         this.playerID = playerID;
         placements = new HashMap<String, Integer>();
+        elo = 1000;
+
     }
 
     public Player(String name, double rank){
@@ -29,6 +33,7 @@ public class Player {
         this.name = name;
         this.rank = rank;
         playerID = -1;
+        elo = 1000;
     }
 
     public Player(String name, double rank, int playerID){
@@ -37,6 +42,7 @@ public class Player {
         this.playerID = playerID;
         placements = new HashMap<String, Integer>();
         numTourneys = 0;
+        elo = 1000;
     }
 
     public String getName() {
@@ -74,5 +80,21 @@ public class Player {
 
     public void setNumTourneys(int numTourneys) {
         this.numTourneys = numTourneys;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getElo() {
+        return elo;
+    }
+
+    public void setElo(int elo) {
+        this.elo = elo;
     }
 }
