@@ -10,6 +10,11 @@ public class PlayerComparer implements Comparator<Player> {
             } else if (p1.getRank() > p2.getRank()) {
                 return 1;
             } else {
+                if (p1.getPlayerID() < p2.getPlayerID()) {
+                    return -1;
+                } else if (p1.getPlayerID() > p2.getPlayerID()){
+                    return 1;
+                }
                 return 0;
             }
         }

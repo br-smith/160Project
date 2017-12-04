@@ -11,13 +11,14 @@ public class TestMain {
             }
         }
 //        r.getPlacements("./src/TournamentFiles/tournament1.txt");
-        r.getAvgRanking(r.getPlayers());
+        r.getAvgRanking();
         r.generatePowerRankings(r.getPlayers());
         for (Player p: r.getPowerRankings()) {
-            System.out.println(p.getName() + " " +p.getElo() + " " + p.getRank() + " Num Tourn: " + p.getNumTourneys());
+            System.out.println(p.getName() + " " +p.getElo() + " " + p.getRank() + " Num of Tournaments: " + p.getNumTourneys());
         }
         for (Bracket b : r.getBrackets()) {
             System.out.println("Tournament: " + b.getTournyName() + " City: " + b.getCityName());
         }
+        new RankingWindow(r);
     }
 }

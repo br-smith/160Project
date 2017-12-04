@@ -113,7 +113,7 @@ public class Bracket {
 
 //    public static void main(String[]args) throws IOException {
 //        Bracket b = new Bracket();
-////        b.makeBracket("./TournamentFiles/Tournament1.txt", );
+////        b.makeBracket("./TournamentFiles/Tournament1.to", );
 //        b.makePlacements();
 //        Iterator it = b.getPlacements().entrySet().iterator();
 //        while (it.hasNext()) {
