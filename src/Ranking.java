@@ -18,7 +18,7 @@ public class Ranking {
         playerCount = 0;
         pc = new PlayerComparer();
         PowerRankings = new TreeSet<Player>(pc);
-        averages = new double[16];
+//        averages = new double[16];
         brackets = new ArrayList<>();
     }
     public ArrayList<Player> getPlayers() {
@@ -84,7 +84,6 @@ public class Ranking {
             average[i] = total[i] / players.get(i).getNumTourneys();
             players.get(i).setRank(average[i]);
         }
-        averages = average;
         return average;
     }
 
@@ -114,34 +113,4 @@ public class Ranking {
     public void setAverages(double[] averages) {
         this.averages = averages;
     }
-//    public double[] getAvgRanking(int[][] tourneys){
-//        int numPlayers = tourneys.length;
-//
-//        int[] total = new int[numPlayers];
-//        double[] average = new double[numPlayers];
-//        for(int i = 0; i < numPlayers; i++){
-//            for(int j = 0; j < tourneys[i].length; j++){
-//                total[i] += tourneys[i][j];
-//            }
-//            average[i] = total[i] / tourneys[i].length;
-//        }
-//        return average;
-//    }
-    /* JUST A PRACTICE MAIN METHOD TO ENSURE FUNCTIONALITY
-    public static void main(String[] args){
-        Ranking r = new Ranking();
-        int[][] rankings = new int[][]{
-                {1, 2, 3, 4, 5},
-                {2, 4, 6, 8, 10},
-                {3, 6, 9, 12, 15}
-        };
-        double[] avgRank;
-
-        avgRank = r.getAvgRanking(rankings);
-        for(int i = 0; i < avgRank.length; i++) {
-            System.out.println(String.valueOf(avgRank[i]));
-        }
-        System.out.println("Damn you're fine");
-    }
-    */
 }

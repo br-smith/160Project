@@ -85,7 +85,17 @@ public class RankingWindow {
             } catch (IOException e ) {
                 e.printStackTrace();
             }
-            r.updateRankings(file.getPath());
+            Ranking curr = new Ranking();
+            File dir = new File("./src/TournamentFiles/");
+            File[] directoryListing = dir.listFiles();
+            if (directoryListing != null) {
+                for (File child : directoryListing) {
+                    curr.getPlacements(dir.getAbsolutePath() + "/" + child.getName());
+                }
+            }
+            curr.getAvgRanking();
+            curr.generatePowerRankings(curr.getPlayers());
+            r = curr;
             contentPanel.setDisplayToCurrentStandings(r);
         }
     }
